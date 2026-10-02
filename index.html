@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>エンジェル税制 診断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0; --paper:#ffffff; --ink:#1f2328; --sub:#5d6470; --line:#dcd7cc; --soft:#efebe2;
+  --accent:#23466e; --accent-ink:#ffffff; --ok:#1e6b4a; --ok-bg:#e3f1e9; --ng:#9b2c2c; --ng-bg:#f8e6e4;
+  --na:#7a5b12; --na-bg:#f6eed6; --focus:#2f6db3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16181c; --paper:#1e2126; --ink:#e8e6e1; --sub:#a3a9b3; --line:#343841; --soft:#262a31;
+    --accent:#8fb3dc; --accent-ink:#11161d; --ok:#7fcfa5; --ok-bg:#1d3329; --ng:#f0a29b; --ng-bg:#3a2321;
+    --na:#e3c574; --na-bg:#352d17; --focus:#8fb3dc;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16181c; --paper:#1e2126; --ink:#e8e6e1; --sub:#a3a9b3; --line:#343841; --soft:#262a31;
+  --accent:#8fb3dc; --accent-ink:#11161d; --ok:#7fcfa5; --ok-bg:#1d3329; --ng:#f0a29b; --ng-bg:#3a2321;
+  --na:#e3c574; --na-bg:#352d17; --focus:#8fb3dc;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;font-size:15px;line-height:1.75;-webkit-text-size-adjust:100%}
+.wrap{max-width:980px;margin:0 auto;padding:28px 16px 80px}
+h1,h2,h3{font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;font-weight:800;letter-spacing:.04em;line-height:1.4}
+h1{font-size:clamp(26px,5vw,38px);margin:0 0 6px}
+h2{font-size:clamp(19px,3.4vw,24px);margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+h2 .no{font-size:.8em;color:var(--accent);font-weight:600}
+h3{font-size:17px;margin:22px 0 8px}
+.lead{color:var(--sub);margin:0 0 14px}
+.privacy{border-left:3px solid var(--accent);background:var(--paper);padding:10px 14px;margin:14px 0 18px;font-weight:500}
+.demo{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 22px}
+.demo span{color:var(--sub);font-size:13px;margin-right:4px}
+button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;padding:10px 20px}
+button.on{background:var(--soft);border-color:var(--accent);font-weight:700}
+button:disabled{opacity:.5;cursor:not-allowed}
+button.small{padding:4px 10px;font-size:13px}
+section.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 16px}
+label.f{display:flex;flex-direction:column;font-size:13px;color:var(--sub);min-width:0}
+label.f input,label.f select{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 9px;margin-top:3px;width:100%;min-width:0}
+label.c{display:flex;align-items:center;gap:8px;font-size:14px;padding-top:20px}
+label.c input{width:18px;height:18px}
+fieldset{border:1px solid var(--line);border-radius:8px;padding:12px 14px 14px;margin:12px 0}
+legend{font-weight:700;padding:0 6px;font-size:14px}
+.rowhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+details{margin:10px 0}
+summary{cursor:pointer;color:var(--accent);font-weight:500}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.muted{color:var(--sub);font-size:13px}
+#boot{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px}
+#boot .bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin-top:6px}
+#boot .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+#boot.done{display:none}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 4px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+.tbl th{font-size:12px;color:var(--sub);font-weight:500}
+.tbl td.pg{white-space:nowrap;color:var(--sub)}
+.b{display:inline-block;border-radius:4px;padding:1px 8px;font-size:12px;font-weight:700;white-space:nowrap}
+.b.ok{background:var(--ok-bg);color:var(--ok)} .b.ng{background:var(--ng-bg);color:var(--ng)} .b.na{background:var(--na-bg);color:var(--na)}
+.sum{border-radius:8px;padding:12px 14px;margin:8px 0 14px;font-weight:500}
+.sum.ok{background:var(--ok-bg);color:var(--ok)} .sum.ng{background:var(--ng-bg);color:var(--ng)} .sum.na{background:var(--na-bg);color:var(--na)}
+.pat{font-size:13px;color:var(--sub);margin:4px 0 0;padding-left:14px}
+.pat li{margin:2px 0}
+.notice{font-size:12px;color:var(--sub);border-top:1px solid var(--line);padding-top:10px;margin-top:16px}
+pre.log{white-space:pre-wrap;font-size:12px;background:var(--soft);padding:10px;border-radius:6px;max-height:320px;overflow:auto}
+@media (max-width:640px){
+  .tbl thead{display:none}
+  .tbl tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}
+  .tbl td{display:block;border:0;padding:2px 0}
+  .tbl td[data-h]::before{content:attr(data-h)"：";color:var(--sub);font-size:12px}
+  section.card{padding:18px 14px}
+}
+</style>
+</head>
+<body>
+<div id="boot" role="status" aria-live="polite"><span id="bootmsg">準備を始めています…</span> <span id="boottime" class="muted"></span><div class="bar"><i id="bootbar"></i></div></div>
+<div class="wrap">
+  <h1>エンジェル税制 診断</h1>
+  <p class="lead">会社と募集の内容を入れると、経済産業省の手引きの要件と照らした結果を、①会社だけで決まる要件 ②払込後の株主構成で決まる要件 ③投資家一人ひとりの要件 に分けて表示します。全部の項目が一致した時だけ、書類一式（投資契約書・覚書・増資登記・確認申請・投資家向け書類・進行管理）をまとめてダウンロードできます。</p>
+  <p class="privacy">入力した情報はこのブラウザの中だけで処理し、どこにも送信・保存しません。</p>
+  <div class="demo"><span>見本（架空の会社）：</span><button id="d1" type="button">架空1：止まる例</button><button id="d3" type="button" class="on">架空3：通る例</button><button id="d0" type="button">白紙にする（自社の情報を入れる）</button></div>
+
+  <section class="card" id="s1">
+    <h2><span class="no">1</span>会社のこと</h2>
+    <p class="muted">判定の時点は、2の「払込期日」の日付です。</p>
+    <div id="f1"></div>
+    <div class="actions"><button class="primary" id="btn1" type="button" disabled>自社の要件を見る</button></div>
+    <div id="r1"></div>
+  </section>
+
+  <section class="card" id="s2">
+    <h2><span class="no">2</span>投資家と募集</h2>
+    <div id="f2"></div>
+    <div class="actions"><button class="primary" id="btn2" type="button" disabled>照合する</button></div>
+  </section>
+
+  <section class="card" id="s3">
+    <h2><span class="no">3</span>結果</h2>
+    <div id="r3"><p class="muted">2の「照合する」を押すと、ここに出ます。</p></div>
+  </section>
+</div>
+
+<script src="pyodide/pyodide.js"></script>
+<script>
+"use strict";
+const PYO = new URL("pyodide/", location.href).href;
+let DEMOS = null;
+let U = null, W = null, py = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- 読み込み（Pyodide の起動） ---------- */
+const t0 = Date.now(); let tick = setInterval(() => { $("boottime").textContent = Math.round((Date.now()-t0)/1000) + "秒"; }, 500);
+function step(pct, msg){ $("bootbar").style.width = pct + "%"; $("bootmsg").textContent = msg; }
+async function boot(){
+  try{
+    step(4, "見本を読み込んでいます");
+    DEMOS = await (await fetch(new URL("demos.json", location.href))).json();
+    load("demo3_ok");
+    await new Promise(r => setTimeout(r, 2500));
+    step(8, "Python の本体を読み込んでいます（初回は数十秒かかります）");
+    py = await loadPyodide({ indexURL: PYO, stdLibURL: PYO + "python_stdlib.wasm" });
+    step(50, "照合と書類の道具を展開しています");
+    const b = await (await fetch(new URL("bundle.json", location.href))).json();
+    for (const [p, b64] of Object.entries(b)){
+      const full = "/work/" + p; py.FS.mkdirTree(full.slice(0, full.lastIndexOf("/")));
+      const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) u8[i] = bin.charCodeAt(i);
+      py.FS.writeFile(full, u8);
+    }
+    step(75, "書類づくりの部品（lxml ほか・このページに同梱）を入れています");
+    py.runPython("import zipfile, site, glob\nzipfile.ZipFile(glob.glob('/work/wheels/micropip-*.whl')[0]).extractall(site.getsitepackages()[0])");
+    await py.runPythonAsync("import micropip, glob\nawait micropip.install(['emfs:' + w for w in sorted(glob.glob('/work/wheels/*.whl')) if 'micropip' not in w], deps=False)");
+    py.runPython("import sys\nsys.path.insert(0, '/work/angel_autopilot/09_screen')\nimport web_entry");
+    W = py.pyimport("web_entry");
+    step(100, "準備ができました"); clearInterval(tick);
+    $("btn1").disabled = false; $("btn2").disabled = false;
+    setTimeout(() => $("boot").classList.add("done"), 900);
+  }catch(e){
+    clearInterval(tick); step(100, "読み込みに失敗しました：" + e.message);
+  }
+}
+
+/* ---------- 入力欄（JSON の形のまま描く） ---------- */
+const SELECT = { "種類": ["個人", "法人"], "型": ["A", "B"] };
+const HIDE = new Set(["_note", "株主の並び"]);
+function blank(o){
+  const r = Array.isArray(o) ? [] : {};
+  for (const [k, v] of Object.entries(o)){
+    if (v && typeof v === "object" && !Array.isArray(v)) r[k] = blank(v);
+    else if (typeof v === "boolean") r[k] = (k === "現金払込");
+    else if (k === "種類") r[k] = "個人";
+    else r[k] = null;
+  }
+  return r;
+}
+function field(path, k, v){
+  const id = "i_" + path.join("_");
+  if (typeof v === "boolean")
+    return `<label class="c"><input type="checkbox" data-p='${esc(JSON.stringify(path))}' data-t="b" ${v?"checked":""}>${esc(k)}</label>`;
+  if (SELECT[k])
+    return `<label class="f">${esc(k)}<select data-p='${esc(JSON.stringify(path))}' data-t="s">${SELECT[k].map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></label>`;
+  const t = typeof v === "number" ? "n" : "s";
+  return `<label class="f">${esc(k)}<input ${t==="n"?'inputmode="numeric"':""} data-p='${esc(JSON.stringify(path))}' data-t="${t}" value="${esc(v ?? "")}" placeholder="${v===null?"（空欄）":""}"></label>`;
+}
+function obj(o, path){
+  let flat = "", nested = "";
+  for (const [k, v] of Object.entries(o)){
+    if (HIDE.has(k)) continue;
+    if (v && typeof v === "object" && !Array.isArray(v)) nested += `<details><summary>${esc(k)}</summary><div class="grid">${obj(v, path.concat(k))}</div></details>`;
+    else if (!Array.isArray(v)) flat += field(path.concat(k), k, v);
+  }
+  return flat + (nested ? `</div>${nested}<div class="grid">` : "");
+}
+function list(key, title, path){
+  const arr = U[key] || [];
+  return `<h3>${esc(title)}</h3>` + arr.map((x, i) => `<fieldset><legend><span class="rowhead">${esc(title)} ${i+1}　<button type="button" class="small" data-del="${key}" data-i="${i}">この行を消す</button></span></legend><div class="grid">${obj(x, [key, i])}</div></fieldset>`).join("")
+    + `<button type="button" class="small" data-add="${key}">＋ 行を足す</button>`;
+}
+function render(){
+  $("f1").innerHTML =
+    `<h3>会社</h3><div class="grid">${obj(U["会社"], ["会社"])}</div>` +
+    list("決算期", "決算期") +
+    `<h3>常勤の人数</h3><div class="grid">${obj(U["常勤"], ["常勤"])}</div>` +
+    `<h3>計画</h3><div class="grid">${obj(U["計画"], ["計画"])}${field(["前期末までの払込資本"], "前期末までの払込資本", U["前期末までの払込資本"])}</div>` +
+    list("既存株主", "既存株主（払込前）");
+  const extra = ["確認申請", "投資家書類", "進行", "基準日"].filter(k => U[k]);
+  $("f2").innerHTML = list("投資家", "投資家") +
+    `<h3>募集</h3><div class="grid">${obj(U["募集"], ["募集"])}</div>` +
+    (extra.length ? `<details><summary>書類に差し込む項目（確認申請・投資家書類・進行・基準日）</summary>${extra.map(k=>`<fieldset><legend>${esc(k)}</legend><div class="grid">${obj(U[k], [k])}</div></fieldset>`).join("")}</details>` : "");
+  document.querySelectorAll("[data-p]").forEach(el => el.addEventListener("change", read));
+  document.querySelectorAll("[data-add]").forEach(el => el.onclick = () => { read(); const a = U[el.dataset.add]; a.push(blank(a[0] || {})); render(); });
+  document.querySelectorAll("[data-del]").forEach(el => el.onclick = () => { read(); U[el.dataset.del].splice(+el.dataset.i, 1); render(); });
+}
+function read(){
+  document.querySelectorAll("[data-p]").forEach(el => {
+    const p = JSON.parse(el.dataset.p); let o = U; for (const k of p.slice(0, -1)) o = o[k];
+    const k = p[p.length-1], t = el.dataset.t; let v;
+    if (t === "b") v = el.checked;
+    else if (t === "s" && el.tagName === "SELECT") v = el.value;
+    else { const s = el.value.trim(); v = s === "" ? null : (t === "n" || /^-?[\d,]+$/.test(s)) && !isNaN(+s.replace(/,/g,"")) ? +s.replace(/,/g,"") : s; }
+    o[k] = v;
+  });
+}
+function load(name){
+  if (!DEMOS) return;
+  U = JSON.parse(JSON.stringify(DEMOS[name])); delete U["株主の並び"];
+  $("d0") && $("d0").classList.remove("on"); $("d1").classList.toggle("on", name === "demo1_external_short"); $("d3").classList.toggle("on", name === "demo3_ok");
+  render(); $("r1").innerHTML = ""; $("r3").innerHTML = `<p class="muted">2の「照合する」を押すと、ここに出ます。</p>`;
+}
+
+/* ---------- 結果 ---------- */
+const badge = ok => ok === true ? `<span class="b ok">満たす</span>` : ok === false ? `<span class="b ng">満たさない</span>` : `<span class="b na">材料不足</span>`;
+function table(rows, pats){
+  return `<table class="tbl"><thead><tr><th>要件</th><th>結果</th><th>入力から読んだ値</th><th>要件の値</th><th>手引き</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td data-h="要件">${esc(r.id)}　${esc(r.name)}${r.note?`<div class="muted">${esc(r.note)}</div>`:""}${r.id==="企業Ⅱ"&&pats?patList(pats):""}</td><td data-h="結果">${badge(r.ok)}</td><td data-h="入力から読んだ値">${esc(r.now)}</td><td data-h="要件の値">${esc(r.need)}</td><td class="pg" data-h="手引き">${esc(r.page)}</td></tr>`).join("") + `</tbody></table>`;
+}
+function patList(p){
+  return `<ul class="pat">` + p.map(x => x.kind === "パターン"
+    ? `<li><b>パターン${esc(x.key)}</b>＝${esc(x.name)} → ${badge(x.ok)}</li>`
+    : `<li>${esc(x.key)} ${esc(x.name)} → ${badge(x.ok)}（今：${esc(x.now)}／必要：${esc(x.need)}／${esc(x.page)}）</li>`).join("") + `</ul>`;
+}
+function head(h){
+  return `<p class="muted">${esc(h.company)}　払込期日 ${esc(h.payment_date)}　／　照らした型：${esc(h.measure)}${h.age_band?`（${esc(h.age_band)}）`:""}<br>照合に使った版：${esc(h.edition)}${h.in_hand?"":"（手元に無い＝照合していない）"}<br>${esc(h.position)}</p>` +
+    (h.warnings||[]).map(w => `<p class="sum na">${esc(w)}</p>`).join("");
+}
+const allOk = rows => rows.length > 0 && rows.every(r => r.ok === true);
+const summary = (rows, okText) => allOk(rows) ? `<p class="sum ok">${okText}</p>` : rows.some(r => r.ok === false) ? `<p class="sum ng">要件表と一致しない項目があります。</p>` : `<p class="sum na">照合に必要な入力が不足しています。</p>`;
+function busy(btn, on){ btn.disabled = on; btn.dataset.l = btn.dataset.l || btn.textContent; btn.textContent = on ? "照合中…" : btn.dataset.l; }
+function run1(){
+  read(); const btn = $("btn1"); busy(btn, true);
+  setTimeout(() => { try{
+    const r = JSON.parse(W.check_company(JSON.stringify(U)));
+    $("r1").innerHTML = `<h3>① 会社だけで決まる要件</h3>` + head(r.head) +
+      (r.company.length ? summary(r.company, "会社だけで決まる要件は、全項目一致しました。") + table(r.company, r.patterns) : `<p class="sum na">${esc(r.head.statement)}</p>`);
+  }catch(e){ $("r1").innerHTML = `<p class="sum ng">${errMsg(e)}</p>`; }
+  busy(btn, false); }, 30);
+}
+function run2(){
+  read(); const btn = $("btn2"); busy(btn, true);
+  setTimeout(() => { try{
+    const r = JSON.parse(W.check_all(JSON.stringify(U)));
+    let h = head(r.head);
+    h += `<h3>① 会社だけで決まる要件</h3>` + (r.company.length ? summary(r.company, "全項目一致") + table(r.company, r.patterns) : `<p class="sum na">${esc(r.head.statement)}</p>`);
+    h += `<h3>② 払込後の株主構成で決まる要件</h3>` + (r.holders.length ? summary(r.holders, "全項目一致") + table(r.holders) : `<p class="sum na">照合していない</p>`);
+    h += `<h3>③ 投資家一人ひとりの要件</h3>` + (r.investors.length ? r.investors.map(iv =>
+        `<fieldset><legend>${esc(iv.name)}　${badge(iv.ok)}</legend><table class="tbl"><thead><tr><th>要件</th><th>結果</th><th>入力の値</th><th>手引き</th></tr></thead><tbody>` +
+        iv.items.map(x => `<tr><td data-h="要件">${esc(x.name)}</td><td data-h="結果">${badge(x.ok)}</td><td data-h="入力の値">${esc(x.now)}</td><td class="pg" data-h="手引き">${esc(x.page)}</td></tr>`).join("") +
+        `</tbody></table><p class="muted">${esc(iv.note)}</p></fieldset>`).join("") : `<p class="sum na">照合していない</p>`);
+    h += `<details><summary>期限（手引き・会社法）</summary><table class="tbl"><tbody>` + r.deadlines.map(d => `<tr><td data-h="何の">${esc(d.what)}</td><td data-h="日付">${esc(d.date)}</td><td data-h="決まり">${esc(d.rule)}</td><td class="pg" data-h="出典">${esc(d.page)}</td></tr>`).join("") + `</tbody></table></details>`;
+    h += r.all_ok
+      ? `<p class="sum ok">①②③の全項目が一致しました。</p><div class="actions"><button class="primary" id="dl" type="button">書類一式をダウンロード（zip）</button><span class="muted" id="dlmsg"></span></div>`
+      : `<p class="sum ng">要件表と一致しない項目、または照合に必要な入力の不足があるため、書類は出力しません（上の照合結果・入力値・要件の値・手引きの頁）。</p>`;
+    h += `<p class="notice">${esc(r.head.notice)}<br>${esc(r.head.foot)}</p>`;
+    $("r3").innerHTML = h;
+    if (r.all_ok) $("dl").onclick = download;
+    $("s3").scrollIntoView({ behavior: "smooth", block: "start" });
+  }catch(e){ $("r3").innerHTML = `<p class="sum ng">${errMsg(e)}</p>`; }
+  busy(btn, false); }, 30);
+}
+function errMsg(e){
+  const m = String(e.message);
+  if (/NoneType|could not convert|invalid literal|Invalid isoformat|time data/.test(m)) return "空欄か、形の合わない欄があるため照合できませんでした。日付は 2026-12-01 の形、金額と人数は数字で入れてください。";
+  return "照合できませんでした（入力の形を確かめてください）：" + esc(m.split("\n").slice(-2).join(" "));
+}
+function download(){
+  const btn = $("dl"); btn.disabled = true; $("dlmsg").textContent = "書類を作っています…";
+  setTimeout(async () => { try{
+    const r = JSON.parse(W.build(JSON.stringify(U), "/tmp/out.zip"));
+    if (r.rc !== 0){ $("dlmsg").textContent = ""; $("r3").insertAdjacentHTML("beforeend", `<p class="sum ng">途中で止めました（以降の書類は作っていません）。</p><pre class="log">${esc(r.log)}</pre>`); btn.disabled = false; return; }
+    const blob = new Blob([py.FS.readFile("/tmp/out.zip")], { type: "application/zip" });
+    const name = `エンジェル税制_書類一式_${(U["会社"]["商号"]||"").replace(/[\\/:*?"<>|\s]/g,"")}.zip`;
+    const dl = (window.claude && window.claude.use) ? await window.claude.use("downloads") : null;
+    if (dl){
+      try{ await dl.save({ filename: name, data: blob }); $("dlmsg").textContent = `${r.files.length} 本のファイルをまとめて保存しました。`; }
+      catch(err){ $("dlmsg").textContent = (err && err.code === "declined") ? "保存は取りやめになりました。もう一度押すと保存できます。" : "この画面では保存できませんでした（" + ((err && err.code) || "不明") + "）。"; }
+    } else {
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      $("dlmsg").textContent = `${r.files.length} 本のファイルをまとめました。`;
+    }
+  }catch(e){ $("dlmsg").textContent = "作れませんでした：" + String(e.message).split("\n").slice(-2).join(" "); }
+  btn.disabled = false; }, 30);
+}
+
+$("d1").onclick = () => load("demo1_external_short");
+$("d0").onclick = () => {
+  if (!DEMOS) return;
+  const src = DEMOS["demo3_ok"]; U = blank(src); delete U["株主の並び"];
+  for (const [k, v] of Object.entries(src)) if (Array.isArray(v)) U[k] = v.length && typeof v[0] === "object" ? [blank(v[0])] : [];
+  ["d1","d3"].forEach(id => $(id).classList.remove("on")); $("d0").classList.add("on");
+  render(); $("r1").innerHTML = ""; $("r3").innerHTML = `<p class="muted">2の「照合する」を押すと、ここに出ます。</p>`;
+};
+$("d3").onclick = () => load("demo3_ok");
+$("btn1").onclick = run1; $("btn2").onclick = run2;
+boot();
+</script>
+</body>
+</html>
